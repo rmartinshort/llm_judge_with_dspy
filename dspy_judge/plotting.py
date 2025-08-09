@@ -1,13 +1,9 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+
 def plot_judge_results(df, judge_count_col="satisfied"):
-    ax = sns.countplot(
-        df,
-        y=judge_count_col,
-        palette="viridis",
-        hue=judge_count_col
-    )
+    ax = sns.countplot(df, y=judge_count_col, palette="viridis", hue=judge_count_col)
 
     total = len(df)
 

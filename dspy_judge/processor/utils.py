@@ -1,27 +1,30 @@
 from langdetect import detect, LangDetectException
 import dspy
 
+
 def detect_language(text):
     try:
         return detect(text)
     except LangDetectException:
         return "unknown"
 
+
 # functions to use with datasets.map()
 def extract_llm_response_fields(example):
     # Assumes llm_response is already a dict, not a stringified JSON
-    resp = example['llm_response']
+    resp = example["llm_response"]
     return {
-        'explanation': resp.get('explanation', None),
-        'satisfied': resp.get('satisfied', None)
+        "explanation": resp.get("explanation", None),
+        "satisfied": resp.get("satisfied", None),
     }
+
 
 def extract_llm_response_fields_dspy(example):
     # Assumes llm_response is already a dict, not a stringified JSON
-    resp = example['dspy_response']
+    resp = example["dspy_response"]
     return {
-        'explanation': resp.get('reasoning', None),
-        'satisfied': resp.get('satisfied', None)
+        "explanation": resp.get("reasoning", None),
+        "satisfied": resp.get("satisfied", None),
     }
 
 
@@ -30,16 +33,16 @@ def concat_company_and_conversation(example):
         "company_and_transcript": f"Company: {example['company']}\nTranscript so far: {example['truncated_conversation']}"
     }
 
-def concat_latest_response(example):
 
+def concat_latest_response(example):
     return {
         "output_transcript": f"{example['company_and_transcript']}\nSupport: {example['llm_response']}"
     }
 
-def concat_latest_response_dspy(example):
 
+def concat_latest_response_dspy(example):
     return {
-        "output_transcript": f"{example['company_and_transcript']}\nSupport: {example["dspy_response"]['llm_response']}"
+        "output_transcript": f"{example['company_and_transcript']}\nSupport: {example['dspy_response']['llm_response']}"
     }
 
 
@@ -66,7 +69,7 @@ def convert_dataset_to_dspy_examples(dataset, field_mapping, input_field):
         }
 
         # Add an ID to help with hashing or caching
-        example_fields['_id'] = f"example_{idx}"
+        example_fields["_id"] = f"example_{idx}"
 
         # Create the example with dynamic arguments
         example = dspy.Example(**example_fields).with_inputs(input_field)
