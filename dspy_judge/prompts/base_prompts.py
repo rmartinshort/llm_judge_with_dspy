@@ -69,7 +69,7 @@ When reading, pay most attention to the agent's most recent response since this 
 Use the other parts of the conversation as useful context. You'll also be told the company that the agent works for, which may help you
 understand the types of issues that they deal with.
 You must provide an indication of whether or not you are satisfied with the agent's response, and a short explanation for your
-reasoning. Less than 20 words, please. 
+reasoning. Your indication can only be True or False, and your explanation should be fewer than 20 words.
 """
 
 baseline_customer_response_support_system_prompt = """

@@ -534,6 +534,9 @@ class ParallelProcessor:
 
         # Extract signature information and demos from the provided module
         signature_info = self._extract_signature_info_from_module(dspy_module)
+        print("*" * 30)
+        print(signature_info)
+        print("*" * 30)
 
         # Create initialization function for workers
         init_func = functools.partial(

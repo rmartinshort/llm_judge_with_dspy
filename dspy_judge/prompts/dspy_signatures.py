@@ -7,8 +7,8 @@ from dspy_judge.prompts.base_prompts import (
 
 class SupportTranscriptJudge(dspy.Signature):
     transcript: str = dspy.InputField(desc="Input transcript to judge")
-    satisfied: bool = dspy.OutputField(
-        desc="Whether the agent satisfied the customer query"
+    satisfied: str = dspy.OutputField(
+        desc="Whether the agent satisfied the customer query. This must be either True or False"
     )
 
 
