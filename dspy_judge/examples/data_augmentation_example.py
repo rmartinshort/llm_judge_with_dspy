@@ -4,6 +4,9 @@ Example demonstrating conversation truncation for data augmentation.
 
 from dspy_judge.data_loader.dataset_loader import CustomerSupportDatasetLoader
 from dspy_judge.processor.conversation_truncator import ConversationTruncator
+from dspy_judge.logging_config import get_logger
+
+logger = get_logger(__name__)
 
 
 def demonstrate_truncation():
@@ -14,10 +17,10 @@ def demonstrate_truncation():
     dataset = loader.load_dataset(split="train")
     sample = loader.get_sample(dataset, n_samples=3)
 
-    print("Original conversations:")
+    logger.info("Original conversations:")
     for i, example in enumerate(sample):
-        print(f"\n--- Example {i + 1} (Original) ---")
-        print(example["conversation"])
+        logger.info(f"\n--- Example {i + 1} (Original) ---")
+        logger.info(example["conversation"])
 
     # Create truncator
     truncator = ConversationTruncator(seed=42)
@@ -27,22 +30,22 @@ def demonstrate_truncation():
         sample, min_turns=2, max_turns=4, ensure_customer_last=True
     )
 
-    print("\n" + "=" * 50)
-    print("Truncated conversations (customer speaks last):")
+    logger.info("\n" + "=" * 50)
+    logger.info("Truncated conversations (customer speaks last):")
 
     for i, example in enumerate(truncated_dataset):
-        print(f"\n--- Example {i + 1} (Truncated) ---")
-        print(example["truncated_conversation"])
+        logger.info(f"\n--- Example {i + 1} (Truncated) ---")
+        logger.info(example["truncated_conversation"])
 
     # Get statistics
     stats = truncator.get_truncation_stats(sample, truncated_dataset)
-    print("\n--- Truncation Statistics ---")
-    print(f"Average original turns: {stats['avg_original_turns']:.1f}")
-    print(f"Average truncated turns: {stats['avg_truncated_turns']:.1f}")
-    print(f"Average reduction: {stats['avg_reduction']:.1f} turns")
+    logger.info("\n--- Truncation Statistics ---")
+    logger.info(f"Average original turns: {stats['avg_original_turns']:.1f}")
+    logger.info(f"Average truncated turns: {stats['avg_truncated_turns']:.1f}")
+    logger.info(f"Average reduction: {stats['avg_reduction']:.1f} turns")
 
     # Demonstrate reproducibility
-    print("\n--- Reproducibility Test ---")
+    logger.info("\n--- Reproducibility Test ---")
     truncated_again = truncator.process_dataset(
         sample, min_turns=2, max_turns=4, ensure_customer_last=True
     )
@@ -54,7 +57,7 @@ def demonstrate_truncation():
             all_match = False
             break
 
-    print(f"Truncation is reproducible: {all_match}")
+    logger.info(f"Truncation is reproducible: {all_match}")
 
 
 if __name__ == "__main__":

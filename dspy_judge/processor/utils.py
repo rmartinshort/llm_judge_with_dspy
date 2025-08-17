@@ -1,5 +1,8 @@
 from langdetect import detect, LangDetectException
 import dspy
+from dspy_judge.logging_config import get_logger
+
+logger = get_logger(__name__)
 
 
 def detect_language(text):
@@ -75,5 +78,5 @@ def convert_dataset_to_dspy_examples(dataset, field_mapping, input_field):
         example = dspy.Example(**example_fields).with_inputs(input_field)
         examples.append(example)
 
-    print(f"Processed {len(examples)} training examples")
+    logger.info(f"Processed {len(examples)} training examples")
     return examples

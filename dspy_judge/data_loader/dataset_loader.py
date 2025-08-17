@@ -7,6 +7,9 @@ from pathlib import Path
 from typing import Optional
 from datasets import load_dataset, Dataset
 from dspy_judge.processor.utils import detect_language
+from dspy_judge.logging_config import get_logger
+
+logger = get_logger(__name__)
 
 
 class CustomerSupportDatasetLoader:
@@ -33,9 +36,9 @@ class CustomerSupportDatasetLoader:
         Returns:
             Dataset: The loaded dataset
         """
-        print(f"Loading dataset {self.dataset_name} (split: {split})...")
+        logger.info(f"Loading dataset {self.dataset_name} (split: {split})...")
         dataset = load_dataset(self.dataset_name, split=split, cache_dir=self.cache_dir)
-        print(f"Dataset loaded successfully. Size: {len(dataset)}")
+        logger.info(f"Dataset loaded successfully. Size: {len(dataset)}")
         return dataset
 
     def preprocess_dataset(self, dataset: Dataset) -> Dataset:
@@ -70,7 +73,7 @@ class CustomerSupportDatasetLoader:
         """
         Path(save_path).parent.mkdir(parents=True, exist_ok=True)
         dataset.save_to_disk(save_path)
-        print(f"Dataset saved to {save_path}")
+        logger.info(f"Dataset saved to {save_path}")
 
     def load_local_dataset(self, load_path: str) -> Dataset:
         """
@@ -85,7 +88,7 @@ class CustomerSupportDatasetLoader:
         from datasets import load_from_disk
 
         dataset = load_from_disk(load_path)
-        print(f"Local dataset loaded from {load_path}. Size: {len(dataset)}")
+        logger.info(f"Local dataset loaded from {load_path}. Size: {len(dataset)}")
         return dataset
 
     def get_sample(

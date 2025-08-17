@@ -8,6 +8,9 @@ from typing import Any, Dict, Type
 from pydantic import BaseModel
 
 from .base import LLMStructuredOutputCaller, LLMTextOutputCaller
+from dspy_judge.logging_config import get_logger
+
+logger = get_logger(__name__)
 
 
 class GeminiStructuredOutputCaller(LLMStructuredOutputCaller):
@@ -44,7 +47,7 @@ class GeminiStructuredOutputCaller(LLMStructuredOutputCaller):
             )
             return {"metadata": completions, "model_dump": res.model_dump()}
         except Exception as e:
-            print(f"Error calling {model_name or self.model_name}: {e}")
+            logger.error(f"Error calling {model_name or self.model_name}: {e}")
             return {}
 
     @staticmethod
@@ -86,7 +89,7 @@ class GeminiTextOutputCaller(LLMTextOutputCaller):
             )
             return {"metadata": response, "text": response.text}
         except Exception as e:
-            print(f"Error calling {model_name or self.model_name}: {e}")
+            logger.error(f"Error calling {model_name or self.model_name}: {e}")
             return {}
 
     @staticmethod

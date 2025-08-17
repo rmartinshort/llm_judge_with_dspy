@@ -7,6 +7,9 @@ from openai import OpenAI
 from typing import Any, Dict
 
 from .base import LLMStructuredOutputCaller, LLMTextOutputCaller
+from dspy_judge.logging_config import get_logger
+
+logger = get_logger(__name__)
 
 
 class OpenAIStructuredOutputCaller(LLMStructuredOutputCaller):
@@ -51,7 +54,7 @@ class OpenAITextOutputCaller(LLMTextOutputCaller):
             )
             return {"metadata": response, "text": response.choices[0].message.content}
         except Exception as e:
-            print(f"Error calling {model_name}: {e}")
+            logger.error(f"Error calling {model_name}: {e}")
             return {}
 
     @staticmethod

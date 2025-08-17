@@ -5,6 +5,9 @@ Base classes and data structures for LLM callers.
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Type
 from pydantic import BaseModel
+from dspy_judge.logging_config import get_logger
+
+logger = get_logger(__name__)
 
 
 class LLMCallerBase(ABC):
@@ -71,7 +74,7 @@ class LLMStructuredOutputCaller(LLMCallerBase):
             )
             return {"metadata": completions, "model_dump": res.model_dump()}
         except Exception as e:
-            print(f"Error calling {model_name}: {e}")
+            logger.error(f"Error calling {model_name}: {e}")
             return {}
 
 

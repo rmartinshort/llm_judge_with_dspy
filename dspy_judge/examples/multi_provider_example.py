@@ -4,6 +4,9 @@ Example demonstrating usage with multiple LLM providers.
 
 import os
 from dspy_judge.data_loader.dataset_loader import CustomerSupportDatasetLoader
+from dspy_judge.logging_config import get_logger
+
+logger = get_logger(__name__)
 from dspy_judge.llm_caller import (
     OpenAIStructuredOutputCaller,
     AnthropicStructuredOutputCaller,
@@ -59,14 +62,14 @@ def compare_providers():
         )
 
     if not providers:
-        print(
+        logger.warning(
             "No API keys found. Please set OPENAI_API_KEY, ANTHROPIC_API_KEY, or GEMINI_API_KEY"
         )
         return
 
     # Process with each provider
     for provider in providers:
-        print(f"\n--- {provider['name']} Results ---")
+        logger.info(f"\n--- {provider['name']} Results ---")
 
         processor = ParallelProcessor(provider["caller"], max_workers=1)
         results = processor.process_dataset(
@@ -80,13 +83,13 @@ def compare_providers():
         for i, example in enumerate(results):
             if example["llm_response"]:
                 response = example["llm_response"]
-                print(
+                logger.info(
                     f"Example {i + 1}: {response['satisfied']} - {response['explanation']}"
                 )
 
         # Token stats
         stats = processor.get_token_statistics(results)
-        print(
+        logger.info(
             f"Tokens used: {stats['total_input_tokens']} in, {stats['total_output_tokens']} out"
         )
 

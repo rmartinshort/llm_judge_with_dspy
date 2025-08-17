@@ -18,6 +18,9 @@ from ..llm_caller import (
     GeminiTextOutputCaller,
 )
 import logging
+from dspy_judge.logging_config import get_logger
+
+logger = get_logger(__name__)
 
 # Silence DSPy warnings
 logging.getLogger("dspy.adapters.json_adapter").setLevel(logging.ERROR)
@@ -96,6 +99,11 @@ def _initialize_worker(caller_type: str, api_key: str, model: Optional[str] = No
     """Initialize worker process with LLM caller."""
     global _GLOBAL_CONFIG
     _GLOBAL_CONFIG = {"caller_type": caller_type, "api_key": api_key, "model": model}
+    
+    # Set up logging for worker process
+    from dspy_judge.logging_config import get_logger
+    worker_logger = get_logger(f"{__name__}.worker")
+    worker_logger.debug(f"Initialized worker with caller_type: {caller_type}, model: {model}")
 
 
 def _initialize_worker_dspy_from_signature(
@@ -292,11 +300,15 @@ class ParallelProcessor:
         """
         self.llm_caller = llm_caller
         self.max_workers = max_workers
+        
+        logger.info(f"Initialized ParallelProcessor with max_workers={max_workers}")
 
         if llm_caller is not None:
             self.llm_caller_config = self._get_caller_config(llm_caller)
+            logger.debug(f"Configured LLM caller: {self.llm_caller_config['type']}")
         else:
             self.llm_caller_config = None
+            logger.debug("No LLM caller provided")
 
     def _extract_signature_info_from_module(self, dspy_module) -> Dict[str, Any]:
         """Extract signature information and demos from a DSPy module for multiprocessing."""
@@ -475,7 +487,7 @@ class ParallelProcessor:
             model=config.get("model"),
         )
 
-        print(f"Processing {len(dataset)} examples with {num_proc} workers...")
+        logger.info(f"Processing {len(dataset)} examples with {num_proc} workers...")
 
         # Prepare arguments for each example
         args_list = [
@@ -534,9 +546,7 @@ class ParallelProcessor:
 
         # Extract signature information and demos from the provided module
         signature_info = self._extract_signature_info_from_module(dspy_module)
-        print("*" * 30)
-        print(signature_info)
-        print("*" * 30)
+        logger.debug("Signature info: %s", signature_info)
 
         # Create initialization function for workers
         init_func = functools.partial(
@@ -549,7 +559,7 @@ class ParallelProcessor:
             temperature=dspy_config.get("temperature", 0),
         )
 
-        print(
+        logger.info(
             f"Processing {len(dataset)} examples with {num_proc} workers using DSPy..."
         )
 
@@ -601,5 +611,8 @@ class ParallelProcessor:
             if output_tokens
             else 0,
         }
+        
+        logger.info(f"Token statistics - Total: {stats['total_input_tokens']} in, "
+                   f"{stats['total_output_tokens']} out, Success: {stats['successful_calls']}/{stats['total_examples']}")
 
         return stats

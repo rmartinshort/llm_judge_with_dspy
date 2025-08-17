@@ -6,6 +6,9 @@ import instructor
 from anthropic import Anthropic
 from typing import Any, Dict
 from .base import LLMStructuredOutputCaller, LLMTextOutputCaller
+from dspy_judge.logging_config import get_logger
+
+logger = get_logger(__name__)
 
 
 class AnthropicStructuredOutputCaller(LLMStructuredOutputCaller):
@@ -47,7 +50,7 @@ class AnthropicTextOutputCaller(LLMTextOutputCaller):
             )
             return {"metadata": response, "text": response.content[0].text}
         except Exception as e:
-            print(f"Error calling {model_name}: {e}")
+            logger.error(f"Error calling {model_name}: {e}")
             return {}
 
     @staticmethod
