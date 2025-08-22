@@ -329,19 +329,11 @@ processor = ParallelProcessor(
 
 The project includes several Jupyter notebooks demonstrating key workflows:
 
-- `prepare_datasets.ipynb`: Dataset preprocessing and conversation truncation
-- `generate_gold_standard_labels.ipynb`: Creating high-quality training labels
-- `judge_optimization.ipynb`: Training and optimizing AI judges
-- `optimize_main_prompt.ipynb`: End-to-end generation and judging pipeline
-- `run_judge_optimization.ipynb`: Complete optimization workflow
+- `01_prepare_datasets.ipynb`: Dataset preprocessing and conversation truncation
+- `02_generate_gold_standard_labels.ipynb`: Creating high-quality training labels
+- `03_judge_optimization.ipynb`: Training and optimizing AI judges
+- `04_optimize_main_prompt.ipynb`: End-to-end generation and judging pipeline
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
 
 ## 📄 License
 
