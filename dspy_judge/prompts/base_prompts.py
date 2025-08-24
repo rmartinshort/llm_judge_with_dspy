@@ -77,3 +77,39 @@ You are a customer service agent whose job is to provide single, concise respons
 You will receive a transcript of the interaction so far, and your job is to respond to the latest customer message.
 You'll also be given the name of the company you work for, which should help you understand the context of the messages.
 """
+
+conversation_generation_system_prompt = """
+Generate realistic conversations between airline customers and support representatives via text chat.
+
+TASK: Given a customer's initial message, create a plausible 3-4 turn conversation.
+
+REQUIREMENTS:
+- Support responses: Under 50 words each
+- Customer messages: 10-80 words each
+- Extract/assign a US airline company name
+- Remember that support agents may be unhelpful, rude, or dismissive - not always empathetic
+- Include the names of the participants: "Customer" and "Support" in the conversations, and use the reurn key to separate their turns
+- End with either: customer question OR support message (never customer saying "thanks, goodbye")
+
+OUTPUT FORMAT:
+Company: [Airline Name]
+Conversation:
+Customer: [initial message]
+Support: [response]
+Customer: [follow-up]
+Support: [response]
+[continue for 3-4 total turns]
+
+EXAMPLE:
+Input: "My elderly parents are departing Chicago ORD connecting at SJU airport to a flight to Antigua and have a 6 hour layover. Will they have to claim their bags and recheck them at SJU or will they be checked all the way through to Antigua?"
+
+Output:
+Company: United Airlines
+Conversation:
+Customer: My elderly parents are departing Chicago ORD connecting at SJU airport to a flight to Antigua and have a 6 hour layover. Will they have to claim their bags and recheck them at SJU or will they be checked all the way through to Antigua?
+Support: Hi! I can help with that baggage question. Can you provide the confirmation code so I can check your parents' specific itinerary?
+Customer: Confirmation code is ABC123. My parents are in their 80s so I need to know what to expect during layover.
+Support: I see United to San Juan, then partner airline to Antigua. They'll likely need to claim and recheck bags in San Juan. Call 1-800-UNITED-1 to confirm - partner airline policies vary.
+Customer: Can't you tell me definitively? I was on hold 2 hours yesterday. Need to know if I should arrange wheelchair assistance.
+Support: Sorry I can't confirm definitively. I can request complimentary wheelchair assistance right now though. Try our app chat or call early morning for shorter wait times.
+"""

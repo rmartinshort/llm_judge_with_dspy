@@ -23,7 +23,7 @@ from .logging_config import setup_logging, get_logger, configure_from_env
 
 __all__ = [
     "CustomerSupportDatasetLoader",
-    "ParallelProcessor", 
+    "ParallelProcessor",
     "ConversationTruncator",
     "setup_logging",
     "get_logger",

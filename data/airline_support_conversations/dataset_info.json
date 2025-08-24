@@ -1,0 +1,62 @@
+{
+  "citation": "",
+  "description": "",
+  "features": {
+    "conversation_id": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "Text": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "number_of_words": {
+      "dtype": "int64",
+      "_type": "Value"
+    },
+    "llm_response": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "llm_metadata": {
+      "_chunks": {
+        "dtype": "string",
+        "_type": "Value"
+      },
+      "_done": {
+        "dtype": "bool",
+        "_type": "Value"
+      },
+      "_error": {
+        "dtype": "null",
+        "_type": "Value"
+      },
+      "_iterator": {
+        "dtype": "null",
+        "_type": "Value"
+      },
+      "_result": {
+        "dtype": "string",
+        "_type": "Value"
+      }
+    },
+    "input_tokens": {
+      "dtype": "int64",
+      "_type": "Value"
+    },
+    "output_tokens": {
+      "dtype": "int64",
+      "_type": "Value"
+    },
+    "company": {
+      "dtype": "string",
+      "_type": "Value"
+    },
+    "conversation": {
+      "dtype": "string",
+      "_type": "Value"
+    }
+  },
+  "homepage": "",
+  "license": ""
+}

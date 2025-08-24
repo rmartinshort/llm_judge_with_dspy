@@ -99,11 +99,14 @@ def _initialize_worker(caller_type: str, api_key: str, model: Optional[str] = No
     """Initialize worker process with LLM caller."""
     global _GLOBAL_CONFIG
     _GLOBAL_CONFIG = {"caller_type": caller_type, "api_key": api_key, "model": model}
-    
+
     # Set up logging for worker process
     from dspy_judge.logging_config import get_logger
+
     worker_logger = get_logger(f"{__name__}.worker")
-    worker_logger.debug(f"Initialized worker with caller_type: {caller_type}, model: {model}")
+    worker_logger.debug(
+        f"Initialized worker with caller_type: {caller_type}, model: {model}"
+    )
 
 
 def _initialize_worker_dspy_from_signature(
@@ -300,7 +303,7 @@ class ParallelProcessor:
         """
         self.llm_caller = llm_caller
         self.max_workers = max_workers
-        
+
         logger.info(f"Initialized ParallelProcessor with max_workers={max_workers}")
 
         if llm_caller is not None:
@@ -611,8 +614,10 @@ class ParallelProcessor:
             if output_tokens
             else 0,
         }
-        
-        logger.info(f"Token statistics - Total: {stats['total_input_tokens']} in, "
-                   f"{stats['total_output_tokens']} out, Success: {stats['successful_calls']}/{stats['total_examples']}")
+
+        logger.info(
+            f"Token statistics - Total: {stats['total_input_tokens']} in, "
+            f"{stats['total_output_tokens']} out, Success: {stats['successful_calls']}/{stats['total_examples']}"
+        )
 
         return stats

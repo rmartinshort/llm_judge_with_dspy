@@ -27,7 +27,7 @@ def extract_llm_response_fields_dspy(example):
     resp = example["dspy_response"]
     return {
         "explanation": resp.get("reasoning", None),
-        "satisfied": resp.get("satisfied", None),
+        "satisfied": resp.get("satisfied", None).lower(),
     }
 
 
@@ -47,6 +47,14 @@ def concat_latest_response_dspy(example):
     return {
         "output_transcript": f"{example['company_and_transcript']}\nSupport: {example['dspy_response']['llm_response']}"
     }
+
+
+def build_company_and_conversation_cols(example):
+    company_name = example["llm_response"].split("\n\n")[0].split(":")[1].strip()
+    conversation_string = ":".join(
+        "\n".join(example["llm_response"].split("\n\n")[1:]).split(":")[1:]
+    ).strip()
+    return {"company": company_name, "conversation": conversation_string}
 
 
 def convert_dataset_to_dspy_examples(dataset, field_mapping, input_field):

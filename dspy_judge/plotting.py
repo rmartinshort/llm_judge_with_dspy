@@ -3,7 +3,15 @@ import matplotlib.pyplot as plt
 
 
 def plot_judge_results(df, judge_count_col="satisfied"):
-    ax = sns.countplot(df, y=judge_count_col, palette="viridis", hue=judge_count_col)
+    order = ["true", "false"]
+    ax = sns.countplot(
+        df,
+        y=judge_count_col,
+        palette="viridis",
+        hue=judge_count_col,
+        hue_order=order,
+        order=order,
+    )
 
     total = len(df)
 

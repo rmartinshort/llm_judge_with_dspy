@@ -264,11 +264,6 @@ The system tracks various performance metrics:
 - **Processing Speed**: Examples processed per second
 - **Success Rate**: Percentage of successful API calls
 
-Example optimization results:
-- **Baseline Judge**: 66.2% accuracy
-- **Optimized Judge**: 72.5% accuracy  
-- **Response Generator**: 91.2% judge satisfaction score
-
 ## 📁 Project Structure
 
 ```
